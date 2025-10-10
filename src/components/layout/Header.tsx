@@ -3,12 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useLanguage } from "@/context/LanguageContext";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
 
   // Handle scroll effect
   useEffect(() => {
@@ -21,15 +19,12 @@ export default function Header() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // Toggle language
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "id" : "en");
-  };
 
   return (
     <header
@@ -53,14 +48,14 @@ export default function Header() {
           </div>
 
           {/* Navigation - Centered */}
-          <nav className="hidden md:flex items-center justify-center flex-grow">
+          <nav className="flex items-center justify-center flex-grow">
             <ul className="flex space-x-8">
               <li>
                 <Link
                   href="/"
                   className="font-medium text-white hover:text-red-500 transition py-3 text-lg"
                 >
-                  {t("nav.home")}
+                  Home
                 </Link>
               </li>
               <li>
@@ -68,7 +63,7 @@ export default function Header() {
                   href="/services"
                   className="font-medium text-white hover:text-red-500 transition py-3 text-lg"
                 >
-                  {t("nav.services")}
+                  Services
                 </Link>
               </li>
               <li>
@@ -76,7 +71,7 @@ export default function Header() {
                   href="/about-us"
                   className="font-medium text-white hover:text-red-500 transition py-3 text-lg"
                 >
-                  {t("nav.about")}
+                  About Us
                 </Link>
               </li>
               <li>
@@ -84,7 +79,7 @@ export default function Header() {
                   href="/gallery"
                   className="font-medium text-white hover:text-red-500 transition py-3 text-lg"
                 >
-                  {t("nav.gallery")}
+                  Gallery
                 </Link>
               </li>
               <li>
@@ -92,42 +87,25 @@ export default function Header() {
                   href="/news"
                   className="font-medium text-white hover:text-red-500 transition py-3 text-lg"
                 >
-                  {t("nav.news")}
+                  News
                 </Link>
               </li>
             </ul>
           </nav>
 
-          {/* Phone & Language */}
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="bg-white text-black px-5 py-3 font-medium">
-              021 38853160
-            </div>
-
-            {/* Language Switcher */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center space-x-2 bg-white hover:bg-gray-100 text-black px-4 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg"
-              aria-label="Switch Language"
+          {/* Contact & Language */}
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/contact"
+              className="bg-[#7e072e] hover:bg-[#6a0625] text-white font-medium px-5 py-3 rounded"
             >
-              <span className="text-sm font-bold">
-                {language.toUpperCase()}
-              </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                />
-              </svg>
-            </button>
+              Contact
+            </Link>
+            <div className="flex items-center space-x-1">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white text-black">
+                <span className="text-xs font-medium">EN</span>
+              </div>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -135,7 +113,6 @@ export default function Header() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-white"
-              aria-label="Toggle Menu"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -158,74 +135,90 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#1a1a1a] border-t border-gray-700">
-          <div className="container mx-auto px-4 py-6">
-            <nav className="flex flex-col space-y-2">
+        <div className="fixed inset-0 z-50 bg-[#1a1a1a] pt-16">
+          <div className="container mx-auto px-4">
+            <button
+              className="absolute top-4 right-4 text-white"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            {/* Mobile Logo - Centered */}
+            <div className="flex justify-center mb-8">
+              <Image
+                src="/images/kjmlogo.png"
+                alt="PT Khazmans Jaya Mandiri"
+                width={140}
+                height={50}
+                className="h-12 w-auto"
+              />
+            </div>
+
+            <nav className="flex flex-col space-y-4 py-8">
               <Link
                 href="/"
                 className="font-medium text-white hover:text-red-500 transition py-2 border-b border-gray-700 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t("nav.home")}
+                Home
               </Link>
               <Link
                 href="/services"
                 className="font-medium text-white hover:text-red-500 transition py-2 border-b border-gray-700 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t("nav.services")}
+                Services
               </Link>
               <Link
                 href="/about-us"
                 className="font-medium text-white hover:text-red-500 transition py-2 border-b border-gray-700 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t("nav.about")}
+                About Us
               </Link>
               <Link
                 href="/gallery"
                 className="font-medium text-white hover:text-red-500 transition py-2 border-b border-gray-700 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t("nav.gallery")}
+                Gallery
               </Link>
               <Link
                 href="/news"
                 className="font-medium text-white hover:text-red-500 transition py-2 border-b border-gray-700 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t("nav.news")}
+                News
               </Link>
             </nav>
 
             <div className="mt-6 flex flex-col space-y-4">
-              <div className="bg-white text-black px-5 py-3 font-medium w-max">
-                021 38853160
-              </div>
-
-              {/* Mobile Language Switcher */}
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center space-x-2 bg-white hover:bg-gray-100 text-black px-4 py-3 rounded-lg font-medium transition-all duration-300 w-max"
+              <Link
+                href="/contact"
+                className="bg-[#7e072e] hover:bg-[#6a0625] text-white px-5 py-3 font-medium rounded"
+                onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="text-sm font-bold">
-                  {language.toUpperCase()}
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                  />
-                </svg>
-              </button>
+                Contact
+              </Link>
+              <div className="flex items-center space-x-1">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white text-black">
+                  <span className="text-xs font-medium">EN</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
