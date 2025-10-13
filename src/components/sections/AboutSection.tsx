@@ -2,8 +2,107 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function AboutSection() {
+  // Menggunakan Language Context
+  const { language } = useLanguage();
+
+  // Terjemahan langsung
+  const translations = {
+    id: {
+      title: {
+        first: "Mengapa Memilih ",
+        second: "Khazmans Jaya Mandiri",
+        third: "?",
+      },
+      description1:
+        "PT KHAZMANS JAYA MANDIRI adalah salah satu perusahaan yang bergerak di bidang jasa Transportasi khususnya tujuan domestik. Perusahaan kami dulu telah eksis pada awal tahun 2006, akan tetapi pada waktu itu belum di legalisasi karena memfokuskan diri sebagai agen transportasi lokal (Trucking) dari berbagai daerah seperti Sumatera dan Jawa, yang berdomisili di Pulogadung (EJIP).",
+      description2:
+        "PT. KHAZMANS JAYA MANDIRI di legalisasi pada bulan November 2010. Perusahaan kami menawarkan jasa pengiriman barang baik Domestik maupun Internasional. Akan tetapi, mengingat kebutuhan belakangan ini lebih cenderung melayani jasa pengiriman khususnya Domestik karena kebutuhan pasar yang cukup di banggakan.",
+      features: {
+        feature1: {
+          title: "Ahli Industri",
+          description:
+            "Lebih dari 15 tahun pengalaman dalam pengiriman laut dan solusi logistik.",
+        },
+        feature2: {
+          title: "Dukungan Pelanggan 24/7",
+          description:
+            "Dukungan sepanjang waktu untuk memastikan pengiriman Anda dipantau dan dilacak.",
+        },
+        feature3: {
+          title: "Jaringan Global",
+          description:
+            "Jaringan mitra yang luas di seluruh dunia untuk pengiriman internasional yang mulus.",
+        },
+        feature4: {
+          title: "Aman & Andal",
+          description:
+            "Sistem pelacakan canggih dan opsi asuransi untuk melindungi kargo Anda.",
+        },
+      },
+      learnMore: "Pelajari Lebih Lanjut",
+      badges: {
+        experience: {
+          number: "19+",
+          text: "Tahun Pengalaman",
+        },
+        shipments: {
+          number: "500+",
+          text: "Pengiriman Berhasil",
+        },
+      },
+    },
+    en: {
+      title: {
+        first: "Why Choose ",
+        second: "Khazmans Jaya Mandiri",
+        third: "?",
+      },
+      description1:
+        "PT KHAZMANS JAYA MANDIRI is a company engaged in Transportation services, especially for domestic destinations. Our company has existed since early 2006, but at that time it had not been legalized because it focused on being a local transportation agent (Trucking) from various regions such as Sumatra and Java, based in Pulogadung (EJIP).",
+      description2:
+        "PT. KHAZMANS JAYA MANDIRI was legalized in November 2010. Our company offers goods delivery services both Domestic and International. However, considering the recent needs, we tend to serve shipping services, especially Domestic, due to the significant market demand.",
+      features: {
+        feature1: {
+          title: "Industry Expertise",
+          description:
+            "Over 15 years of experience in sea freight and logistics solutions.",
+        },
+        feature2: {
+          title: "24/7 Customer Support",
+          description:
+            "Round-the-clock support to ensure your shipments are monitored and tracked.",
+        },
+        feature3: {
+          title: "Global Network",
+          description:
+            "Extensive network of partners worldwide for seamless international shipping.",
+        },
+        feature4: {
+          title: "Secure & Reliable",
+          description:
+            "Advanced tracking systems and insurance options to protect your cargo.",
+        },
+      },
+      learnMore: "Learn More",
+      badges: {
+        experience: {
+          number: "19+",
+          text: "Years Experience",
+        },
+        shipments: {
+          number: "500+",
+          text: "Successful Shipments",
+        },
+      },
+    },
+  };
+
+  // Memilih terjemahan berdasarkan bahasa saat ini
+  const text = translations[language];
+
   return (
     <section
       className="py-16 relative"
@@ -17,9 +116,9 @@ export default function AboutSection() {
         {/* Section Header - Centered title with red accent */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-2">
-            <span className="text-[#0e162e]">Why Choose </span>
-            <span className="text-[#FF0000]">Khazmans Jaya Mandiri</span>
-            <span className="text-[#0e162e]">?</span>
+            <span className="text-[#0e162e]">{text.title.first}</span>
+            <span className="text-[#FF0000]">{text.title.second}</span>
+            <span className="text-[#0e162e]">{text.title.third}</span>
           </h2>
           <div className="h-1 w-64 bg-[#FF0000] mx-auto"></div>
         </div>
@@ -37,22 +136,9 @@ export default function AboutSection() {
               />
             </div>
 
-            <p className="text-gray-700 mb-6">
-              PT KHAZMANS JAYA MANDIRI adalah salah satu perusahaan yang
-              bergerak di bidang jasa Transportasi khususnya tujuan domestik.
-              Perusahaan kami dulu telah eksis pada awal tahun 2006, akan tetapi
-              pada waktu itu belum di legalisasi karena memfokuskan diri sebagai
-              agen transportasi lokal (Trucking) dari berbagai daerah seperti
-              Sumatera dan Jawa, yang berdomisili di Pulogadung (EJIP).
-            </p>
+            <p className="text-gray-700 mb-6">{text.description1}</p>
 
-            <p className="text-gray-700 mb-8">
-              PT. KHAZMANS JAYA MANDIRI di legalisasi pada bulan November 2010.
-              Perusahaan kami menawarkan jasa pengiriman barang baik Domestik
-              maupun Internasional. Akan tetapi, mengingat kebutuhan belakangan
-              ini lebih cenderung melayani jasa pengiriman khususnya Domestik
-              karena kebutuhan pasar yang cukup di banggakan.
-            </p>
+            <p className="text-gray-700 mb-8">{text.description2}</p>
 
             {/* Features list */}
             <div className="space-y-6 mb-8">
@@ -73,11 +159,10 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-[#0e162e]">
-                    Industry Expertise
+                    {text.features.feature1.title}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Over 15 years of experience in sea freight and logistics
-                    solutions.
+                    {text.features.feature1.description}
                   </p>
                 </div>
               </div>
@@ -99,11 +184,10 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-[#0e162e]">
-                    24/7 Customer Support
+                    {text.features.feature2.title}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Round-the-clock support to ensure your shipments are
-                    monitored and tracked.
+                    {text.features.feature2.description}
                   </p>
                 </div>
               </div>
@@ -125,11 +209,10 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-[#0e162e]">
-                    Global Network
+                    {text.features.feature3.title}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Extensive network of partners worldwide for seamless
-                    international shipping.
+                    {text.features.feature3.description}
                   </p>
                 </div>
               </div>
@@ -151,11 +234,10 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-[#0e162e]">
-                    Secure & Reliable
+                    {text.features.feature4.title}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Advanced tracking systems and insurance options to protect
-                    your cargo.
+                    {text.features.feature4.description}
                   </p>
                 </div>
               </div>
@@ -167,7 +249,7 @@ export default function AboutSection() {
                 href="/about-us"
                 className="inline-block bg-[#7e072e] hover:bg-[#6a0625] text-white font-bold px-8 py-3 rounded-md transition"
               >
-                Pelajari Lebih Lanjut
+                {text.learnMore}
               </Link>
             </div>
           </div>
@@ -187,14 +269,18 @@ export default function AboutSection() {
 
             {/* Experience Badge - outside the image in the corner */}
             <div className="absolute -top-4 -right-4 bg-[#7e072e] text-white rounded-md p-4 shadow-lg z-10">
-              <div className="text-3xl font-bold text-center">19+</div>
-              <div className="text-sm">Years Experience</div>
+              <div className="text-3xl font-bold text-center">
+                {text.badges.experience.number}
+              </div>
+              <div className="text-sm">{text.badges.experience.text}</div>
             </div>
 
             {/* Shipments Badge - outside the image in the corner */}
             <div className="absolute -bottom-4 -left-4 bg-[#0e162e] text-white rounded-md p-4 shadow-lg z-10">
-              <div className="text-3xl font-bold text-center">500+</div>
-              <div className="text-sm">Successful Shipments</div>
+              <div className="text-3xl font-bold text-center">
+                {text.badges.shipments.number}
+              </div>
+              <div className="text-sm">{text.badges.shipments.text}</div>
             </div>
           </div>
         </div>

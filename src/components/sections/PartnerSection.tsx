@@ -1,8 +1,30 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PartnerSection() {
+  const { language } = useLanguage();
+
+  // Terjemahan langsung
+  const translations = {
+    id: {
+      title: "Mitra Kami",
+      since: "Sejak",
+      mainSector: "Sektor Utama",
+      collaborationField: "Bidang Kerjasama:",
+    },
+    en: {
+      title: "Our Partners",
+      since: "Since",
+      mainSector: "Main Sector",
+      collaborationField: "Collaboration Field:",
+    },
+  };
+
+  // Memilih terjemahan berdasarkan bahasa saat ini
+  const text = translations[language];
+
   // Data partner dengan informasi lengkap
   const partners = [
     {
@@ -445,7 +467,7 @@ export default function PartnerSection() {
               fontWeight: 700,
             }}
           >
-            Mitra Kami
+            {text.title}
           </h2>
           <div className="h-1 w-60 bg-[#E71E25] rounded"></div>
         </div>
@@ -488,7 +510,7 @@ export default function PartnerSection() {
                                 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
                             }}
                           >
-                            Sejak
+                            {text.since}
                           </p>
                           <p
                             className="font-normal text-gray-800"
@@ -512,7 +534,7 @@ export default function PartnerSection() {
                                 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
                             }}
                           >
-                            Sektor Utama
+                            {text.mainSector}
                           </p>
                           <p
                             className="font-normal text-gray-800"
@@ -535,7 +557,7 @@ export default function PartnerSection() {
                               'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
                           }}
                         >
-                          Bidang Kerjasama:
+                          {text.collaborationField}
                         </p>
                         <p
                           className="font-normal text-gray-800"

@@ -10,8 +10,42 @@ import {
   Twitter,
   MapPin,
 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { language } = useLanguage();
+
+  // Terjemahan langsung
+  const translations = {
+    id: {
+      description:
+        "PT. KHAZMANS JAYA MANDIRI adalah salah satu perusahaan yang bergerak di bidang jasa Transportasi khususnya tujuan domestik.",
+      contact: "Kontak Kami",
+      address: {
+        line1: "Jl. Bintara XI No. 131 RT. 02 RW. 05",
+        line2: "Kel. Bintara, Kec. Bekasi Barat 17134",
+        line3: "West Java",
+      },
+      social: "Media Sosial",
+      copyright: `© ${new Date().getFullYear()} PT Khazmans Jaya Mandiri. Hak cipta dilindungi undang-undang.`,
+    },
+    en: {
+      description:
+        "PT. KHAZMANS JAYA MANDIRI is a company engaged in Transportation services especially for domestic destinations.",
+      contact: "Contact Us",
+      address: {
+        line1: "Jl. Bintara XI No. 131 RT. 02 RW. 05",
+        line2: "Kel. Bintara, Kec. Bekasi Barat 17134",
+        line3: "West Java",
+      },
+      social: "Social Media",
+      copyright: `© ${new Date().getFullYear()} PT Khazmans Jaya Mandiri. All rights reserved.`,
+    },
+  };
+
+  // Memilih terjemahan berdasarkan bahasa saat ini
+  const text = translations[language];
+
   return (
     <footer
       className="py-12 text-white relative"
@@ -52,16 +86,13 @@ export default function Footer() {
               />
             </Link>
 
-            <p className="mb-6 text-gray-300">
-              PT. KHAZMANS JAYA MANDIRI adalah salah satu perusahaan yang
-              bergerak di bidang jasa Transportasi khususnya tujuan domestik.
-            </p>
+            <p className="mb-6 text-gray-300">{text.description}</p>
           </div>
 
           {/* Kolom 2: Informasi Kontak */}
           <div>
             <h3 className="text-xl font-bold mb-8 relative">
-              <span className="relative z-10">Kontak Kami</span>
+              <span className="relative z-10">{text.contact}</span>
               <span className="absolute bottom-0 left-0 w-10 h-1 bg-[#7e072e]"></span>
             </h3>
 
@@ -71,11 +102,11 @@ export default function Footer() {
                   <MapPin size={16} className="text-[#7e072e]" />
                 </div>
                 <div className="text-gray-300">
-                  Jl. Bintara XI No. 131 RT. 02 RW. 05
+                  {text.address.line1}
                   <br />
-                  Kel. Bintara, Kec. Bekasi Barat 17134
+                  {text.address.line2}
                   <br />
-                  West Java
+                  {text.address.line3}
                 </div>
               </div>
 
@@ -100,7 +131,7 @@ export default function Footer() {
           {/* Kolom 3: Social Media */}
           <div>
             <h3 className="text-xl font-bold mb-8 relative">
-              <span className="relative z-10">Media Sosial</span>
+              <span className="relative z-10">{text.social}</span>
               <span className="absolute bottom-0 left-0 w-10 h-1 bg-[#7e072e]"></span>
             </h3>
 
@@ -161,10 +192,7 @@ export default function Footer() {
 
         {/* Copyright Footer */}
         <div className="border-t border-white/10 mt-12 pt-8 text-center">
-          <p className="text-gray-400">
-            &copy; {new Date().getFullYear()} PT Khazmans Jaya Mandiri. All
-            rights reserved.
-          </p>
+          <p className="text-gray-400">{text.copyright}</p>
         </div>
       </div>
 

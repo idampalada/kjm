@@ -9,11 +9,146 @@ import {
   submitContactForm,
   ContactFormData,
 } from "../../services/contactService";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ContactPage() {
+  const { language } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Terjemahan langsung
+  const translations = {
+    id: {
+      pageTitle: "HUBUNGI KAMI",
+      title: {
+        first: "Dapatkan ",
+        second: "Gratis",
+        third: " Konsultasi!",
+      },
+      description:
+        "Kami siap membantu Anda dengan kebutuhan logistik dan transportasi. Silakan isi formulir di bawah ini untuk konsultasi gratis.",
+      successMessage: {
+        title: "Terima Kasih!",
+        message:
+          "Pesan Anda telah dikirim. Tim kami akan segera menghubungi Anda untuk konsultasi lebih lanjut.",
+        button: "Kirim pesan lain",
+      },
+      contactInfo: {
+        title: "Informasi Kontak",
+        description:
+          "Silahkan hubungi kami melalui info di bawah ini atau isi form untuk diskusi kebutuhan logistik Anda.",
+        address: {
+          label: "Alamat",
+          value: "Jakarta, Indonesia",
+        },
+        phone: {
+          label: "Telepon",
+          value: "021 38853160",
+        },
+        email: {
+          label: "Email",
+          value: "info@khazmansjayamandiri.com",
+        },
+        social: "Ikuti Kami",
+      },
+      form: {
+        name: {
+          label: "Nama",
+          placeholder: "Masukkan nama lengkap",
+          required: "Nama wajib diisi",
+        },
+        email: {
+          label: "Email",
+          placeholder: "email@contoh.com",
+          required: "Email wajib diisi",
+          invalid: "Email tidak valid",
+        },
+        phone: {
+          label: "Nomor Telepon",
+          placeholder: "0812 3456 7890",
+        },
+        business: {
+          label: "Jenis Usaha",
+          placeholder: "Contoh: Manufaktur, Retail, dll.",
+        },
+        message: {
+          label: "Pesan Anda",
+          placeholder: "Jelaskan kebutuhan logistik atau transportasi Anda",
+          required: "Pesan wajib diisi",
+        },
+        submit: "Kirim Pesan",
+        submitting: "Mengirim...",
+      },
+      error: "Terjadi kesalahan. Silakan coba lagi.",
+    },
+    en: {
+      pageTitle: "CONTACT US",
+      title: {
+        first: "Get A ",
+        second: "Free",
+        third: " Consultation!",
+      },
+      description:
+        "We're ready to help you with your logistics and transportation needs. Please fill out the form below for a free consultation.",
+      successMessage: {
+        title: "Thank You!",
+        message:
+          "Your message has been sent. Our team will contact you soon for further consultation.",
+        button: "Send another message",
+      },
+      contactInfo: {
+        title: "Contact Information",
+        description:
+          "Please contact us through the information below or fill out the form to discuss your logistics needs.",
+        address: {
+          label: "Address",
+          value: "Jakarta, Indonesia",
+        },
+        phone: {
+          label: "Phone",
+          value: "021 38853160",
+        },
+        email: {
+          label: "Email",
+          value: "info@khazmansjayamandiri.com",
+        },
+        social: "Follow Us",
+      },
+      form: {
+        name: {
+          label: "Name",
+          placeholder: "Enter your full name",
+          required: "Name is required",
+        },
+        email: {
+          label: "Email",
+          placeholder: "email@example.com",
+          required: "Email is required",
+          invalid: "Email is invalid",
+        },
+        phone: {
+          label: "Phone Number",
+          placeholder: "0812 3456 7890",
+        },
+        business: {
+          label: "Business Type",
+          placeholder: "Example: Manufacturing, Retail, etc.",
+        },
+        message: {
+          label: "Your Message",
+          placeholder: "Describe your logistics or transportation needs",
+          required: "Message is required",
+        },
+        submit: "Send Message",
+        submitting: "Sending...",
+      },
+      error: "An error occurred. Please try again.",
+    },
+  };
+
+  // Memilih terjemahan berdasarkan bahasa saat ini
+  const text = translations[language];
 
   const {
     register,
@@ -31,9 +166,7 @@ export default function ContactPage() {
       setSubmitSuccess(true);
       reset();
     } catch (error: any) {
-      setErrorMessage(
-        error.response?.data?.message || "Terjadi kesalahan. Silakan coba lagi."
-      );
+      setErrorMessage(error.response?.data?.message || text.error);
     } finally {
       setIsSubmitting(false);
     }
@@ -55,7 +188,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <h1 className="inline-block text-4xl font-bold text-white px-10 py-4 border-2 border-white mb-4">
-              CONTACT US
+              {text.pageTitle}
             </h1>
           </div>
         </div>
@@ -85,15 +218,13 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-2">
-              <span className="text-white">Get A </span>
-              <span className="text-[#FF0000]">Free</span>
-              <span className="text-white"> Consultation!</span>
+              <span className="text-white">{text.title.first}</span>
+              <span className="text-[#FF0000]">{text.title.second}</span>
+              <span className="text-white">{text.title.third}</span>
             </h2>
             <div className="h-1 w-64 bg-[#7e072e] mx-auto mb-6"></div>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Kami siap membantu Anda dengan kebutuhan logistik dan
-              transportasi. Silakan isi formulir di bawah ini untuk konsultasi
-              gratis.
+              {text.description}
             </p>
           </div>
 
@@ -117,17 +248,16 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-4">
-                  Terima Kasih!
+                  {text.successMessage.title}
                 </h3>
                 <p className="text-gray-300 mb-6">
-                  Pesan Anda telah dikirim. Tim kami akan segera menghubungi
-                  Anda untuk konsultasi lebih lanjut.
+                  {text.successMessage.message}
                 </p>
                 <button
                   className="bg-[#7e072e] hover:bg-[#6a0625] text-white font-bold px-8 py-3 rounded-md transition"
                   onClick={() => setSubmitSuccess(false)}
                 >
-                  Kirim pesan lain
+                  {text.successMessage.button}
                 </button>
               </div>
             ) : (
@@ -137,11 +267,10 @@ export default function ContactPage() {
                   <div className="md:w-2/5 bg-[#0e162e] p-8 text-white">
                     <div className="mb-8">
                       <h3 className="text-2xl font-bold mb-4">
-                        Informasi Kontak
+                        {text.contactInfo.title}
                       </h3>
                       <p className="text-gray-300 mb-6">
-                        Silahkan hubungi kami melalui info di bawah ini atau isi
-                        form untuk diskusi kebutuhan logistik Anda.
+                        {text.contactInfo.description}
                       </p>
                     </div>
 
@@ -170,9 +299,11 @@ export default function ContactPage() {
                           </svg>
                         </div>
                         <div>
-                          <h4 className="font-semibold">Alamat</h4>
+                          <h4 className="font-semibold">
+                            {text.contactInfo.address.label}
+                          </h4>
                           <p className="text-sm text-gray-300">
-                            Jakarta, Indonesia
+                            {text.contactInfo.address.value}
                           </p>
                         </div>
                       </div>
@@ -195,8 +326,12 @@ export default function ContactPage() {
                           </svg>
                         </div>
                         <div>
-                          <h4 className="font-semibold">Telepon</h4>
-                          <p className="text-sm text-gray-300">021 38853160</p>
+                          <h4 className="font-semibold">
+                            {text.contactInfo.phone.label}
+                          </h4>
+                          <p className="text-sm text-gray-300">
+                            {text.contactInfo.phone.value}
+                          </p>
                         </div>
                       </div>
 
@@ -218,16 +353,20 @@ export default function ContactPage() {
                           </svg>
                         </div>
                         <div>
-                          <h4 className="font-semibold">Email</h4>
+                          <h4 className="font-semibold">
+                            {text.contactInfo.email.label}
+                          </h4>
                           <p className="text-sm text-gray-300">
-                            info@khazmansjayamandiri.com
+                            {text.contactInfo.email.value}
                           </p>
                         </div>
                       </div>
                     </div>
 
                     <div className="mt-12">
-                      <h4 className="font-semibold mb-4">Ikuti Kami</h4>
+                      <h4 className="font-semibold mb-4">
+                        {text.contactInfo.social}
+                      </h4>
                       <div className="flex space-x-4">
                         <a
                           href="#"
@@ -313,15 +452,15 @@ export default function ContactPage() {
                           htmlFor="name"
                           className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                          Nama
+                          {text.form.name.label}
                         </label>
                         <input
                           id="name"
                           type="text"
                           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7e072e] focus:border-[#7e072e]"
-                          placeholder="Masukkan nama lengkap"
+                          placeholder={text.form.name.placeholder}
                           {...register("name", {
-                            required: "Nama wajib diisi",
+                            required: text.form.name.required,
                           })}
                         />
                         {errors.name && (
@@ -337,19 +476,19 @@ export default function ContactPage() {
                             htmlFor="email"
                             className="block text-sm font-medium text-gray-700 mb-1"
                           >
-                            Email
+                            {text.form.email.label}
                           </label>
                           <input
                             id="email"
                             type="email"
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7e072e] focus:border-[#7e072e]"
-                            placeholder="email@contoh.com"
+                            placeholder={text.form.email.placeholder}
                             {...register("email", {
-                              required: "Email wajib diisi",
+                              required: text.form.email.required,
                               pattern: {
                                 value:
                                   /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: "Email tidak valid",
+                                message: text.form.email.invalid,
                               },
                             })}
                           />
@@ -365,13 +504,13 @@ export default function ContactPage() {
                             htmlFor="phone"
                             className="block text-sm font-medium text-gray-700 mb-1"
                           >
-                            Nomor Telepon
+                            {text.form.phone.label}
                           </label>
                           <input
                             id="phone"
                             type="tel"
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7e072e] focus:border-[#7e072e]"
-                            placeholder="0812 3456 7890"
+                            placeholder={text.form.phone.placeholder}
                             {...register("phone")}
                           />
                         </div>
@@ -382,13 +521,13 @@ export default function ContactPage() {
                           htmlFor="business"
                           className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                          Jenis Usaha
+                          {text.form.business.label}
                         </label>
                         <input
                           id="business"
                           type="text"
                           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7e072e] focus:border-[#7e072e]"
-                          placeholder="Contoh: Manufaktur, Retail, dll."
+                          placeholder={text.form.business.placeholder}
                           {...register("business")}
                         />
                       </div>
@@ -398,15 +537,15 @@ export default function ContactPage() {
                           htmlFor="inquiry"
                           className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                          Pesan Anda
+                          {text.form.message.label}
                         </label>
                         <textarea
                           id="inquiry"
                           rows={4}
                           className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-[#7e072e] focus:border-[#7e072e]"
-                          placeholder="Jelaskan kebutuhan logistik atau transportasi Anda"
+                          placeholder={text.form.message.placeholder}
                           {...register("inquiry", {
-                            required: "Pesan wajib diisi",
+                            required: text.form.message.required,
                           })}
                         />
                         {errors.inquiry && (
@@ -444,10 +583,10 @@ export default function ContactPage() {
                                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                 ></path>
                               </svg>
-                              Mengirim...
+                              {text.form.submitting}
                             </span>
                           ) : (
-                            "Kirim Pesan"
+                            text.form.submit
                           )}
                         </button>
                       </div>
