@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     // Kirim respons dari backend
     return NextResponse.json(response.data);
-  } catch (error: any) {
+  } catch (error) {
     console.error("API Proxy Error:", error);
     return NextResponse.json(
       { error: "Terjadi kesalahan saat menghubungi server" },

@@ -3,6 +3,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Image from "next/image";
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -165,8 +166,11 @@ export default function ContactPage() {
       await submitContactForm(data);
       setSubmitSuccess(true);
       reset();
-    } catch (error: any) {
-      setErrorMessage(error.response?.data?.message || text.error);
+    } catch (error) {
+      const message = axios.isAxiosError(error)
+        ? (error.response?.data as { message?: string } | undefined)?.message
+        : undefined;
+      setErrorMessage(message || text.error);
     } finally {
       setIsSubmitting(false);
     }

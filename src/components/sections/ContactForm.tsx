@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import {
   submitContactForm,
   ContactFormData,
 } from "../../services/contactService";
-import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function ContactForm() {
@@ -161,8 +161,11 @@ export default function ContactForm() {
       await submitContactForm(data);
       setSubmitSuccess(true);
       reset();
-    } catch (error: any) {
-      setErrorMessage(error.response?.data?.message || text.error);
+    } catch (error) {
+      const message = axios.isAxiosError(error)
+        ? (error.response?.data as { message?: string } | undefined)?.message
+        : undefined;
+      setErrorMessage(message || text.error);
     } finally {
       setIsSubmitting(false);
     }
